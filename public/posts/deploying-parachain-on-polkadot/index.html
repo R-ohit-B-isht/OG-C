@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="en-gb"><head><script src="/livereload.js?mindelay=10&amp;v=2&amp;port=1313&amp;path=livereload" data-no-instant defer></script><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title itemprop="name">Deploying a Parachain on Polkadot | Awesome Hugo blog</title>
+<meta property="og:title" content="Deploying a Parachain on Polkadot | Awesome Hugo blog" />
+<meta name="twitter:title" content="Deploying a Parachain on Polkadot | Awesome Hugo blog" />
+<meta itemprop="name" content="Deploying a Parachain on Polkadot | Awesome Hugo blog" />
+<meta name="application-name" content="Deploying a Parachain on Polkadot | Awesome Hugo blog" />
+<meta property="og:site_name" content="Awesome hugo blog" />
+
+<meta name="description" content="A comprehensive guide to deploying a parachain on the Polkadot network, covering environment setup, parachain building, and registration process.">
+<meta itemprop="description" content="A comprehensive guide to deploying a parachain on the Polkadot network, covering environment setup, parachain building, and registration process." />
+<meta property="og:description" content="A comprehensive guide to deploying a parachain on the Polkadot network, covering environment setup, parachain building, and registration process." />
+<meta name="twitter:description" content="A comprehensive guide to deploying a parachain on the Polkadot network, covering environment setup, parachain building, and registration process." />
+
+<meta property="og:locale" content="en-gb" />
+<meta name="language" content="en-gb" />
+
+  <link rel="alternate" hreflang="en-gb" href="http://localhost:1313/posts/deploying-parachain-on-polkadot/" title="English" />
+
+
+
+
+
+    
+    
+    
+
+    <meta property="og:type" content="article" />
+    <meta property="og:article:published_time" content=2024-07-27T12:00:00Z />
+    <meta property="article:published_time" content=2024-07-27T12:00:00Z />
+    <meta property="og:url" content="http://localhost:1313/posts/deploying-parachain-on-polkadot/" />
+
+    
+    <meta property="og:article:author" content="Sidharth R" />
+    <meta property="article:author" content="Sidharth R" />
+    <meta name="author" content="Sidharth R" />
+    
+    
+
+    
+
+    <script defer type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "Article",
+        "headline": "Deploying a Parachain on Polkadot",
+        "author": {
+        "@type": "Person",
+        "name": ""
+        },
+        "datePublished": "2024-07-27",
+        "description": "A comprehensive guide to deploying a parachain on the Polkadot network, covering environment setup, parachain building, and registration process.",
+        "wordCount":  2576 ,
+        "mainEntityOfPage": "True",
+        "dateModified": "2024-07-27",
+        "image": {
+        "@type": "imageObject",
+        "url": ""
+        },
+        "publisher": {
+        "@type": "Organization",
+        "name": "Awesome Hugo blog"
+        }
+    }
+    </script>
+
+
+<meta name="generator" content="Hugo 0.129.0">
+
+    
+
+    <link rel="canonical" href="http://localhost:1313/posts/deploying-parachain-on-polkadot/">
+    <link href="/style.min.d43bc6c79baa87f006efb2b92be952faeedeb1a3ab626c1d6abda52eae049355.css" rel="stylesheet">
+    <link href="/code-highlight.min.706d31975fec544a864cb7f0d847a73ea55ca1df91bf495fd12a177138d807cf.css" rel="stylesheet">
+
+    
+    <link rel="apple-touch-icon" sizes="180x180" href="/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="/icons/favicon-16x16.png">
+    <link rel="mask-icon" href="/icons/safari-pinned-tab.svg">
+    <link rel="shortcut icon" href="/favicon.ico">
+
+
+
+
+<link rel="manifest" href="http://localhost:1313/site.webmanifest">
+
+<meta name="msapplication-config" content="/browserconfig.xml">
+<meta name="msapplication-TileColor" content="#2d89ef">
+<meta name="theme-color" content="#434648">
+
+    
+    <link rel="icon" type="image/svg+xml" href="/icons/favicon.svg">
+
+    </head>
+<body data-theme = "dark" class="notransition">
+
+<script src="/js/theme.js"></script>
+
+<div class="navbar" role="navigation">
+    <nav class="menu" aria-label="Main Navigation">
+        <a href="http://localhost:1313/" class="logo">
+            <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" 
+viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" 
+stroke-linejoin="round" class="feather feather-home">
+<title>Home</title>
+<path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+<polyline points="9 22 9 12 15 12 15 22"></polyline>
+</svg>
+        </a>
+        <input type="checkbox" id="menu-trigger" class="menu-trigger" />
+        <label for="menu-trigger">
+            <span class="menu-icon">
+                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" stroke="currentColor" fill="none" viewBox="0 0 14 14"><title>Menu</title><path stroke-linecap="round" stroke-linejoin="round" d="M10.595 7L3.40726 7"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 3.51488L3.49301 3.51488"></path><path stroke-linecap="round" stroke-linejoin="round" d="M10.5096 10.4851H3.49301"></path><path stroke-linecap="round" stroke-linejoin="round" d="M0.5 12.5V1.5C0.5 0.947715 0.947715 0.5 1.5 0.5H12.5C13.0523 0.5 13.5 0.947715 13.5 1.5V12.5C13.5 13.0523 13.0523 13.5 12.5 13.5H1.5C0.947715 13.5 0.5 13.0523 0.5 12.5Z"></path></svg>
+            </span>
+        </label>
+
+        <div class="trigger">
+            <ul class="trigger-container">
+                
+                
+                <li>
+                    <a class="menu-link " href="/">
+                        Home
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link active" href="/posts/">
+                        Posts
+                    </a>
+                    
+                </li>
+                
+                <li>
+                    <a class="menu-link " href="/about/">
+                        About
+                    </a>
+                    
+                </li>
+                
+                <li class="menu-separator">
+                    <span>|</span>
+                </li>
+                
+                
+            </ul>
+            <a id="mode" href="#">
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-sunny" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>LIGHT</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+                <svg xmlns="http://www.w3.org/2000/svg" class="mode-moon" width="21" height="21" viewBox="0 0 14 14" stroke-width="1">
+<title>DARK</title><g><circle cx="7" cy="7" r="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></circle><line x1="7" y1="0.5" x2="7" y2="2.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="2.4" x2="3.82" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="0.5" y1="7" x2="2.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="2.4" y1="11.6" x2="3.82" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="7" y1="13.5" x2="7" y2="11.5" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="11.6" x2="10.18" y2="10.18" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="13.5" y1="7" x2="11.5" y2="7" fill="none" stroke-linecap="round" stroke-linejoin="round"></line><line x1="11.6" y1="2.4" x2="10.18" y2="3.82" fill="none" stroke-linecap="round" stroke-linejoin="round"></line></g></svg>
+            </a>
+        </div>
+    </nav>
+</div>
+
+<div class="wrapper post">
+    <main class="page-content" aria-label="Content">
+        <article>
+            <header class="header">
+                <h1 class="header-title">Deploying a Parachain on Polkadot</h1>
+                
+                
+                <div class="post-meta">
+                    <time datetime="2024-07-27T12:00:00&#43;00:00" itemprop="datePublished"> 27 Jul 2024 </time>
+                </div>
+                
+            </header>
+            
+    
+    <details class="toc" ZgotmplZ>
+        <summary><b>Table of Contents</b></summary>
+        <nav id="TableOfContents">
+  <ul>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#table-of-contents">Table of Contents</a></li>
+    <li><a href="#prerequisites">Prerequisites</a></li>
+    <li><a href="#setting-up-the-environment">Setting Up the Environment</a>
+      <ul>
+        <li><a href="#1-install-rust">1. Install Rust</a></li>
+        <li><a href="#2-install-the-polkadot-sdk">2. Install the Polkadot SDK</a></li>
+        <li><a href="#3-set-up-a-local-substrate-node">3. Set Up a Local Substrate Node</a></li>
+      </ul>
+    </li>
+    <li><a href="#building-the-parachain">Building the Parachain</a>
+      <ul>
+        <li><a href="#1-create-a-new-parachain-project">1. Create a New Parachain Project</a></li>
+        <li><a href="#2-configure-the-parachain">2. Configure the Parachain</a></li>
+        <li><a href="#3-build-the-parachain">3. Build the Parachain</a></li>
+      </ul>
+    </li>
+    <li><a href="#registering-the-parachain">Registering the Parachain</a>
+      <ul>
+        <li><a href="#1-understand-parachain-slot-auctions">1. Understand Parachain Slot Auctions</a></li>
+        <li><a href="#2-prepare-for-the-auction">2. Prepare for the Auction</a></li>
+        <li><a href="#3-submit-the-parachain-registration">3. Submit the Parachain Registration</a></li>
+        <li><a href="#4-participate-in-the-auction">4. Participate in the Auction</a></li>
+        <li><a href="#5-verify-the-registration">5. Verify the Registration</a></li>
+        <li><a href="#6-maintain-your-parachain-slot">6. Maintain Your Parachain Slot</a></li>
+      </ul>
+    </li>
+    <li><a href="#deploying-the-parachain">Deploying the Parachain</a>
+      <ul>
+        <li><a href="#1-prepare-the-deployment-environment">1. Prepare the Deployment Environment</a></li>
+        <li><a href="#2-launch-the-collator-node">2. Launch the Collator Node</a></li>
+        <li><a href="#3-connect-to-the-relay-chain">3. Connect to the Relay Chain</a></li>
+        <li><a href="#4-validate-parachain-functionality">4. Validate Parachain Functionality</a></li>
+        <li><a href="#5-monitor-and-maintain">5. Monitor and Maintain</a></li>
+      </ul>
+    </li>
+    <li><a href="#troubleshooting">Troubleshooting</a>
+      <ul>
+        <li><a href="#1-compilation-errors">1. Compilation Errors</a></li>
+        <li><a href="#2-network-connectivity-issues">2. Network Connectivity Issues</a></li>
+        <li><a href="#3-parachain-registration-issues">3. Parachain Registration Issues</a></li>
+        <li><a href="#4-performance-issues">4. Performance Issues</a></li>
+        <li><a href="#5-upgrade-and-migration-issues">5. Upgrade and Migration Issues</a></li>
+        <li><a href="#6-crate-specific-issues">6. Crate-Specific Issues</a></li>
+      </ul>
+    </li>
+    <li><a href="#resolving-compilation-errors-in-executor_intfrs">Resolving Compilation Errors in executor_intf.rs</a></li>
+    <li><a href="#recent-updates-to-executor_intfrs">Recent Updates to executor_intf.rs</a></li>
+    <li><a href="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+    </details>
+            <div class="page-content">
+                <h1 id="deploying-a-parachain-on-polkadot">Deploying a Parachain on Polkadot</h1>
+<h2 id="introduction">Introduction</h2>
+<p>Polkadot is not just another blockchain; it&rsquo;s a revolutionary protocol that enables multiple specialized blockchains to interconnect and share security. At the heart of this ecosystem are parachains - custom, project-specific blockchains that run in parallel within the Polkadot network.</p>
+<p>Deploying a parachain on Polkadot opens up a world of possibilities for your blockchain project. It allows you to leverage Polkadot&rsquo;s robust infrastructure, shared security, and cross-chain interoperability while maintaining the flexibility to design your chain for specific use cases.</p>
+<p>In this comprehensive guide, we&rsquo;ll walk you through the process of deploying a parachain on the Polkadot network. We&rsquo;ll cover everything from setting up your development environment to registering your parachain on the network. By the end of this tutorial, you&rsquo;ll have a functioning parachain connected to the Polkadot ecosystem.</p>
+<p>Let&rsquo;s embark on this exciting journey into the world of Polkadot parachains! 🚀</p>
+<h2 id="table-of-contents">Table of Contents</h2>
+<ol>
+<li><a href="/posts/deploying-parachain-on-polkadot/#introduction">Introduction</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#prerequisites">Prerequisites</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#setting-up-the-environment">Setting Up the Development Environment</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#building-the-parachain">Building Your Parachain</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#registering-the-parachain">Registering Your Parachain</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#deploying-the-parachain">Deploying the Parachain</a>
+<ul>
+<li><a href="/posts/deploying-parachain-on-polkadot/#1-prepare-the-deployment-environment">Prepare the Deployment Environment</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#2-launch-the-collator-node">Launch the Collator Node</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#3-connect-to-the-relay-chain">Connect to the Relay Chain</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#4-validate-parachain-functionality">Validate Parachain Functionality</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#5-monitor-and-maintain">Monitor and Maintain</a></li>
+</ul>
+</li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#troubleshooting">Troubleshooting</a></li>
+<li><a href="/posts/deploying-parachain-on-polkadot/#conclusion">Conclusion</a></li>
+</ol>
+<h2 id="prerequisites">Prerequisites</h2>
+<p>Before we dive into the deployment process, make sure you have the following prerequisites in place:</p>
+<ol>
+<li>
+<p><strong>Basic understanding of blockchain technology and Polkadot</strong>:</p>
+<ul>
+<li>Familiarity with blockchain concepts</li>
+<li>Understanding of Polkadot&rsquo;s architecture</li>
+</ul>
+</li>
+<li>
+<p><strong>Rust programming language</strong>:</p>
+<ul>
+<li>Polkadot&rsquo;s parachain development is primarily done in Rust</li>
+<li>If you&rsquo;re new to Rust, don&rsquo;t worry - we&rsquo;ll guide you through the installation process</li>
+</ul>
+</li>
+<li>
+<p><strong>Command-line interface (CLI) proficiency</strong>:</p>
+<ul>
+<li>Comfortable using the command line</li>
+<li>Ability to execute various commands throughout the tutorial</li>
+</ul>
+</li>
+<li>
+<p><strong>Git</strong>:</p>
+<ul>
+<li>Version control system</li>
+<li>Used for downloading necessary repositories</li>
+</ul>
+</li>
+<li>
+<p><strong>A Unix-based operating system</strong>:</p>
+<ul>
+<li>Tutorial designed for Unix-based systems (Linux or macOS)</li>
+<li>Windows users should consider setting up a virtual machine or using Windows Subsystem for Linux (WSL)</li>
+</ul>
+</li>
+<li>
+<p><strong>Sufficient hardware resources</strong>:</p>
+<ul>
+<li>At least 8GB of RAM</li>
+<li>Multi-core processor</li>
+</ul>
+</li>
+</ol>
+<p>Now that we&rsquo;ve covered the prerequisites, let&rsquo;s move on to setting up our development environment.</p>
+<h2 id="setting-up-the-environment">Setting Up the Environment</h2>
+<p>To deploy a parachain, we need to set up a robust development environment. Let&rsquo;s go through this process step-by-step.</p>
+<h3 id="1-install-rust">1. Install Rust</h3>
+<p>Rust is the primary programming language used for parachain development in the Polkadot ecosystem. Follow these steps to install Rust:</p>
+<ul>
+<li>Open your terminal and run the following command:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">curl --proto <span class="s1">&#39;=https&#39;</span> --tlsv1.2 -sSf https://sh.rustup.rs <span class="p">|</span> sh
+</span></span></code></pre></div><p>This command downloads and runs the official Rust installation script.</p>
+<ul>
+<li>
+<p>Follow the on-screen prompts to complete the installation. When asked to choose an installation option, select the default option (1).</p>
+</li>
+<li>
+<p>After the installation is complete, restart your terminal or run the following command to update your current shell session:</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl"><span class="nb">source</span> <span class="nv">$HOME</span>/.cargo/env
+</span></span></code></pre></div><ul>
+<li>Verify your Rust installation by checking the version:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rustc --version
+</span></span></code></pre></div><p>You should see output similar to this:</p>
+<pre tabindex="0"><code>rustc 1.XX.X (XXXXXXXX 20XX-XX-XX)
+</code></pre><ul>
+<li>Install the nightly toolchain and set it as the default:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">rustup default nightly
+</span></span><span class="line"><span class="cl">rustup target add wasm32-unknown-unknown
+</span></span></code></pre></div><p>Great! You now have Rust installed and configured for parachain development. In the next section, we&rsquo;ll install the Polkadot SDK and set up a local Substrate node.</p>
+<h3 id="2-install-the-polkadot-sdk">2. Install the Polkadot SDK</h3>
+<p>The Polkadot SDK provides the necessary tools and libraries for parachain development. Follow these steps to install it:</p>
+<ul>
+<li>Clone the Polkadot repository:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/paritytech/polkadot.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> polkadot
+</span></span></code></pre></div><ul>
+<li>Checkout the latest release:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout <span class="k">$(</span>git tag <span class="p">|</span> sort -V <span class="p">|</span> tail -n 1<span class="k">)</span>
+</span></span></code></pre></div><ul>
+<li>Install the required dependencies:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./scripts/init.sh
+</span></span></code></pre></div><ul>
+<li>Build the Polkadot binary:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cargo build --release
+</span></span></code></pre></div><p>This process may take some time, depending on your system&rsquo;s capabilities.</p>
+<h3 id="3-set-up-a-local-substrate-node">3. Set Up a Local Substrate Node</h3>
+<p>Substrate is the framework used to build parachains. Setting up a local Substrate node will allow you to test your parachain before deploying it to the Polkadot network.</p>
+<ul>
+<li>Clone the Substrate Node Template:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/substrate-developer-hub/substrate-node-template.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> substrate-node-template
+</span></span></code></pre></div><ul>
+<li>Checkout the latest release:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout <span class="k">$(</span>git tag <span class="p">|</span> sort -V <span class="p">|</span> tail -n 1<span class="k">)</span>
+</span></span></code></pre></div><ul>
+<li>Build the node:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cargo build --release
+</span></span></code></pre></div><ul>
+<li>Run the node:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./target/release/node-template --dev
+</span></span></code></pre></div><p>You should now see your local Substrate node producing blocks.</p>
+<p>Congratulations! You&rsquo;ve successfully set up your development environment for parachain deployment. In the next section, we&rsquo;ll start building our parachain.</p>
+<h2 id="building-the-parachain">Building the Parachain</h2>
+<p>Once your environment is set up, you can start building your parachain. This section will cover the steps to create and configure your parachain.</p>
+<h3 id="1-create-a-new-parachain-project">1. Create a New Parachain Project</h3>
+<p>To create a new parachain project, we&rsquo;ll use the Substrate Parachain Template. This template provides a solid foundation for building your custom parachain.</p>
+<ul>
+<li>Clone the Substrate Parachain Template:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git clone https://github.com/substrate-developer-hub/substrate-parachain-template.git
+</span></span><span class="line"><span class="cl"><span class="nb">cd</span> substrate-parachain-template
+</span></span></code></pre></div><ul>
+<li>Checkout the latest release:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">git checkout <span class="k">$(</span>git tag <span class="p">|</span> sort -V <span class="p">|</span> tail -n 1<span class="k">)</span>
+</span></span></code></pre></div><h3 id="2-configure-the-parachain">2. Configure the Parachain</h3>
+<p>Now that we have our parachain project, let&rsquo;s configure it to suit our needs.</p>
+<ul>
+<li>
+<p>Open the <code>runtime/src/lib.rs</code> file in your favorite text editor. This file contains the core configuration of your parachain.</p>
+</li>
+<li>
+<p>Modify the <code>construct_runtime!</code> macro to define your parachain&rsquo;s modules and their order of execution. For example:</p>
+</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="fm">construct_runtime!</span><span class="p">(</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">pub</span><span class="w"> </span><span class="k">enum</span> <span class="nc">Runtime</span><span class="w"> </span><span class="k">where</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Block</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">Block</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">NodeBlock</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">opaque</span>::<span class="n">Block</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">UncheckedExtrinsic</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">UncheckedExtrinsic</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">System</span>: <span class="nc">frame_system</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Timestamp</span>: <span class="nc">pallet_timestamp</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Balances</span>: <span class="nc">pallet_balances</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">TransactionPayment</span>: <span class="nc">pallet_transaction_payment</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">Sudo</span>: <span class="nc">pallet_sudo</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="c1">// Add your custom pallets here
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div><ul>
+<li>Configure your parachain&rsquo;s parameters in the <code>node/src/chain_spec.rs</code> file. This includes setting the initial validators, defining the token distribution, and other chain-specific settings.</li>
+</ul>
+<h3 id="3-build-the-parachain">3. Build the Parachain</h3>
+<p>With the configuration in place, it&rsquo;s time to build your parachain.</p>
+<ul>
+<li>Build the parachain node:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cargo build --release
+</span></span></code></pre></div><ul>
+<li>Build the WebAssembly runtime:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">cargo build --release --features runtime-benchmarks
+</span></span></code></pre></div><ul>
+<li>Generate the chain specification:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./target/release/parachain-template-node build-spec --chain <span class="nb">local</span> &gt; customspec.json
+</span></span></code></pre></div><ul>
+<li>Convert the chain spec to raw format:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./target/release/parachain-template-node build-spec --chain customspec.json --raw &gt; customspec_raw.json
+</span></span></code></pre></div><h2 id="registering-the-parachain">Registering the Parachain</h2>
+<p>After building the parachain, you need to register it on the Polkadot network. This section will guide you through the registration process, including the crucial step of participating in a parachain slot auction.</p>
+<h3 id="1-understand-parachain-slot-auctions">1. Understand Parachain Slot Auctions</h3>
+<p>Before registering your parachain, it&rsquo;s essential to understand the concept of parachain slot auctions:</p>
+<ul>
+<li>Parachain slots are limited and in high demand.</li>
+<li>Auctions determine which parachains can connect to the Polkadot Relay Chain.</li>
+<li>Auctions typically run for seven days, with a ending period to prevent last-minute bidding wars.</li>
+</ul>
+<h3 id="2-prepare-for-the-auction">2. Prepare for the Auction</h3>
+<p>To participate in a parachain slot auction, you need to:</p>
+<ul>
+<li>Ensure you have sufficient DOT tokens to place a competitive bid.</li>
+<li>Create a crowdloan campaign to gather additional DOT from the community (optional but recommended).</li>
+<li>Prepare your parachain&rsquo;s WebAssembly runtime and genesis state.</li>
+</ul>
+<h3 id="3-submit-the-parachain-registration">3. Submit the Parachain Registration</h3>
+<p>Follow these steps to register your parachain:</p>
+<ul>
+<li>Connect to the Polkadot network using the Polkadot.js Apps interface (<a href="https://polkadot.js.org/apps/)">https://polkadot.js.org/apps/)</a>.</li>
+<li>Navigate to the &ldquo;Network&rdquo; &gt; &ldquo;Parachains&rdquo; tab.</li>
+<li>Click on &ldquo;Parathreads&rdquo; and then &ldquo;Register&rdquo;.</li>
+<li>Upload your parachain&rsquo;s WebAssembly runtime and genesis state.</li>
+<li>Set your initial bid amount for the auction.</li>
+<li>Submit the registration transaction and wait for it to be included in a block.</li>
+</ul>
+<h3 id="4-participate-in-the-auction">4. Participate in the Auction</h3>
+<p>Once registered, participate in the auction:</p>
+<ul>
+<li>Monitor the current auction status in the &ldquo;Auctions&rdquo; tab.</li>
+<li>Place bids during the auction period.</li>
+<li>Optionally, adjust your bids based on the competition.</li>
+</ul>
+<h3 id="5-verify-the-registration">5. Verify the Registration</h3>
+<p>After the auction ends:</p>
+<ul>
+<li>Check the auction results to see if you&rsquo;ve won a slot.</li>
+<li>If successful, your parachain will be assigned a ParaId and a slot on the Polkadot relay chain.</li>
+<li>Use the Polkadot.js Apps interface to verify your parachain&rsquo;s status under the &ldquo;Parachains&rdquo; tab.</li>
+<li>Once your parachain is live, you can start interacting with it using your parachain node.</li>
+</ul>
+<h3 id="6-maintain-your-parachain-slot">6. Maintain Your Parachain Slot</h3>
+<p>Remember that parachain slots are leased for a fixed period:</p>
+<ul>
+<li>Monitor your lease period and prepare for renewal auctions.</li>
+<li>Continue development and improvement of your parachain during its active period.</li>
+<li>Engage with your community to maintain support for future auctions.</li>
+</ul>
+<p>By following these detailed steps, you&rsquo;ll navigate the complex process of registering your parachain on the Polkadot network and securing a coveted parachain slot.</p>
+<h2 id="deploying-the-parachain">Deploying the Parachain</h2>
+<p>Now that we have built and registered our parachain, it&rsquo;s time to deploy it to a live network. This process involves several steps to ensure your parachain is correctly connected to the Polkadot ecosystem.</p>
+<h3 id="1-prepare-the-deployment-environment">1. Prepare the Deployment Environment</h3>
+<ul>
+<li>Ensure your collator node is fully synced with the Polkadot relay chain.</li>
+<li>Verify that you have the latest version of your parachain runtime.</li>
+<li>Double-check that all necessary configurations are in place.</li>
+</ul>
+<h3 id="2-launch-the-collator-node">2. Launch the Collator Node</h3>
+<ul>
+<li>Start your collator node with the appropriate flags:</li>
+</ul>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-bash" data-lang="bash"><span class="line"><span class="cl">./target/release/parachain-collator <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --collator <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --force-authoring <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --chain parachain-spec.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --base-path /tmp/parachain/alice <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --port <span class="m">40333</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --ws-port <span class="m">8844</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    -- <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --execution wasm <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --chain polkadot-local-testnet.json <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --port <span class="m">30343</span> <span class="se">\
+</span></span></span><span class="line"><span class="cl"><span class="se"></span>    --ws-port <span class="m">9977</span>
+</span></span></code></pre></div><ul>
+<li>Monitor the logs to ensure your collator is producing blocks and connecting to the relay chain.</li>
+</ul>
+<h3 id="3-connect-to-the-relay-chain">3. Connect to the Relay Chain</h3>
+<ul>
+<li>Use the Polkadot.js Apps interface to connect to your relay chain node.</li>
+<li>Navigate to the &ldquo;Network&rdquo; &gt; &ldquo;Parachains&rdquo; tab.</li>
+<li>Verify that your parachain is listed and its status is &ldquo;Connected&rdquo;.</li>
+</ul>
+<h3 id="4-validate-parachain-functionality">4. Validate Parachain Functionality</h3>
+<ul>
+<li>Use the Polkadot.js Apps interface to interact with your parachain.</li>
+<li>Test basic functionality such as token transfers or custom pallet interactions.</li>
+<li>Monitor block production and finalization on both your parachain and the relay chain.</li>
+</ul>
+<h3 id="5-monitor-and-maintain">5. Monitor and Maintain</h3>
+<ul>
+<li>Set up monitoring tools to track your parachain&rsquo;s performance.</li>
+<li>Regularly check for any necessary updates or security patches.</li>
+<li>Engage with your community and gather feedback on the parachain&rsquo;s functionality.</li>
+</ul>
+<p>By following these steps, you&rsquo;ll successfully deploy your parachain to a live Polkadot network. Remember that maintaining a parachain is an ongoing process, requiring constant attention and updates to ensure optimal performance and security.</p>
+<p>For more detailed information on parachain deployment, refer to the official Polkadot documentation:
+<a href="https://wiki.polkadot.network/docs/build-pdk">Parachain Development Kit (PDK)</a></p>
+<p>Congratulations on deploying your parachain! You&rsquo;re now an active participant in the Polkadot ecosystem, contributing to the future of interoperable blockchain technology.</p>
+<h2 id="troubleshooting">Troubleshooting</h2>
+<p>This section provides solutions to common issues you may encounter during the parachain deployment process.</p>
+<h3 id="1-compilation-errors">1. Compilation Errors</h3>
+<p>If you encounter compilation errors:</p>
+<ul>
+<li>Ensure all dependencies are up to date by running <code>cargo update</code>.</li>
+<li>Check that you&rsquo;re using the correct Rust toolchain version (nightly).</li>
+<li>Verify that all required features are enabled in your <code>Cargo.toml</code> file.</li>
+<li>Clear your target directory with <code>cargo clean</code> and rebuild.</li>
+</ul>
+<h3 id="2-network-connectivity-issues">2. Network Connectivity Issues</h3>
+<p>If you experience network connectivity problems:</p>
+<ul>
+<li>Check your internet connection and firewall settings.</li>
+<li>Ensure your nodes are properly configured to connect to the Polkadot network.</li>
+<li>Verify that you&rsquo;re using the correct chain specification and network identifiers.</li>
+<li>Check if your ports are open and correctly forwarded (default P2P port is 30333).</li>
+</ul>
+<h3 id="3-parachain-registration-issues">3. Parachain Registration Issues</h3>
+<p>If you&rsquo;re having trouble registering your parachain:</p>
+<ul>
+<li>Double-check that your parachain&rsquo;s runtime and genesis state are correctly generated.</li>
+<li>Ensure you have sufficient DOT tokens for the parachain slot auction.</li>
+<li>Verify that your parachain meets all the technical requirements set by Polkadot.</li>
+</ul>
+<h3 id="4-performance-issues">4. Performance Issues</h3>
+<p>If your parachain is experiencing performance problems:</p>
+<ul>
+<li>Monitor your system resources and ensure your hardware meets the recommended specifications.</li>
+<li>Optimize your runtime code, especially any custom pallets.</li>
+<li>Consider using benchmarking tools to identify performance bottlenecks.</li>
+</ul>
+<h3 id="5-upgrade-and-migration-issues">5. Upgrade and Migration Issues</h3>
+<p>When upgrading your parachain:</p>
+<ul>
+<li>Always test upgrades on a local or test network before applying them to production.</li>
+<li>Ensure all state migrations are correctly implemented and tested.</li>
+<li>Keep detailed documentation of all changes and upgrade procedures.</li>
+</ul>
+<h3 id="6-crate-specific-issues">6. Crate-Specific Issues</h3>
+<p>During our development process, we encountered specific issues with the <code>bandersnatch_vrfs</code> crate:</p>
+<ul>
+<li><strong>Private Field Access</strong>: We faced errors related to accessing the private field <code>h</code> in the <code>PiopParams</code> struct.</li>
+<li><strong>Type Mismatches</strong>: There were issues with mismatched types when calling the <code>pedersen_vrf</code> function.</li>
+</ul>
+<p>To address these issues, we made the following changes:</p>
+<ol>
+<li>
+<p>In the <code>sign_ring_vrf</code> method of the <code>SecretKey</code> struct:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="kd">let</span><span class="w"> </span><span class="p">(</span><span class="n">signature</span><span class="p">,</span><span class="n">secret_blinding</span><span class="p">)</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pedersen_vrf</span><span class="p">(</span><span class="o">*</span><span class="n">blinding_base</span><span class="p">).</span><span class="n">sign_pedersen_vrf</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="w"> </span><span class="n">ios</span><span class="p">,</span><span class="w"> </span><span class="nb">None</span><span class="p">,</span><span class="w"> </span><span class="o">&amp;</span><span class="bp">self</span><span class="p">.</span><span class="mi">0</span><span class="p">);</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>In the <code>verify_ring_vrf</code> method of the <code>RingVrfSignature</code> struct:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="n">pedersen_vrf</span><span class="p">(</span><span class="o">*</span><span class="n">blinding_base</span><span class="p">).</span><span class="n">verify_pedersen_vrf</span><span class="p">(</span><span class="n">t</span><span class="p">,</span><span class="n">ios</span><span class="p">.</span><span class="n">as_ref</span><span class="p">(),</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">.</span><span class="n">signature</span><span class="p">)</span><span class="w"> </span><span class="o">?</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div></li>
+</ol>
+<p>These changes involve dereferencing the <code>blinding_base</code> variable when passing it to the <code>pedersen_vrf</code> function. This ensures that the function receives the correct type (the dereferenced value of <code>blinding_base</code>) instead of a reference.</p>
+<p>If you encounter similar issues, consider reviewing your use of the <code>bandersnatch_vrfs</code> crate and applying similar fixes.</p>
+<p>Remember, the Polkadot and Substrate communities are excellent resources for troubleshooting. Don&rsquo;t hesitate to seek help on the official forums or Discord channels if you encounter persistent issues.</p>
+<h2 id="resolving-compilation-errors-in-executor_intfrs">Resolving Compilation Errors in executor_intf.rs</h2>
+<p>Before we proceed to deploying the parachain, it&rsquo;s important to address some compilation errors we encountered during the development process. Specifically, we faced issues in the <code>executor_intf.rs</code> file related to type mismatches and incorrect method signatures. Here&rsquo;s a summary of the changes we made to resolve these issues:</p>
+<ol>
+<li>
+<p>Updated import statements:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">sp_storage</span>::<span class="p">{</span><span class="n">ChildInfo</span><span class="p">,</span><span class="w"> </span><span class="n">TrackedStorageKey</span><span class="p">};</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>Modified the <code>ValidationExternalities</code> implementation to match the <code>sc_executor::Externalities</code> trait definitions:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">impl</span><span class="w"> </span><span class="n">sc_executor</span>::<span class="n">Externalities</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">ValidationExternalities</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">storage</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">key</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">storage</span><span class="p">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">).</span><span class="n">cloned</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">storage_hash</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">key</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="bp">self</span><span class="p">.</span><span class="n">storage</span><span class="p">(</span><span class="n">key</span><span class="p">).</span><span class="n">map</span><span class="p">(</span><span class="o">|</span><span class="n">v</span><span class="o">|</span><span class="w"> </span><span class="n">sp_core</span>::<span class="n">blake2_128</span><span class="p">(</span><span class="o">&amp;</span><span class="n">v</span><span class="p">).</span><span class="n">to_vec</span><span class="p">())</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">child_storage</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">child_info</span>: <span class="kp">&amp;</span><span class="nc">sp_storage</span>::<span class="n">ChildInfo</span><span class="p">,</span><span class="w"> </span><span class="n">key</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="nb">Option</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="nb">None</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="c1">// ... (other method implementations)
+</span></span></span><span class="line"><span class="cl"><span class="c1"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>Updated method signatures to use <code>sp_storage::ChildInfo</code> and <code>sp_storage::TrackedStorageKey</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">child_storage_root</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">child_info</span>: <span class="kp">&amp;</span><span class="nc">sp_storage</span>::<span class="n">ChildInfo</span><span class="p">,</span><span class="w"> </span><span class="n">state_version</span>: <span class="nc">StateVersion</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Vec</span>::<span class="n">new</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">get_whitelist</span><span class="p">(</span><span class="o">&amp;</span><span class="bp">self</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">sp_storage</span>::<span class="n">TrackedStorageKey</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Vec</span>::<span class="n">new</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">set_whitelist</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">new</span>: <span class="nb">Vec</span><span class="o">&lt;</span><span class="n">sp_storage</span>::<span class="n">TrackedStorageKey</span><span class="o">&gt;</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span></span></span></code></pre></div></li>
+</ol>
+<p>These changes ensure that our parachain&rsquo;s execution environment correctly implements the required traits and provides the necessary functionality for the Polkadot runtime. When working on your own parachain, you may encounter similar issues. Always make sure to use the correct types and implement all required methods as specified by the traits you&rsquo;re working with.</p>
+<h2 id="recent-updates-to-executor_intfrs">Recent Updates to executor_intf.rs</h2>
+<p>We&rsquo;ve made additional changes to the <code>executor_intf.rs</code> file to further resolve compilation errors and improve our parachain&rsquo;s compatibility with the Polkadot runtime. Here&rsquo;s a summary of the latest modifications:</p>
+<ol>
+<li>
+<p>Updated import statements:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">use</span><span class="w"> </span><span class="n">sp_core</span>::<span class="p">{</span><span class="n">Blake2Hasher</span><span class="p">,</span><span class="w"> </span><span class="n">storage</span>::<span class="n">ChildInfo</span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">sc_executor</span>::<span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">sp_wasm_interface</span>::<span class="n">HostFunctionRegistry</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="n">Externalities</span><span class="p">,</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">};</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">use</span><span class="w"> </span><span class="n">sp_io</span>::<span class="n">SubstrateHostFunctions</span><span class="p">;</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>Modified the <code>PvfHostFunctionsWrapper</code> implementation:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">impl</span><span class="w"> </span><span class="n">sc_executor</span>::<span class="n">HostFunctions</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">PvfHostFunctionsWrapper</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="k">fn</span> <span class="nf">host_functions</span><span class="p">()</span><span class="w"> </span>-&gt; <span class="nb">Vec</span><span class="o">&lt;&amp;</span><span class="nb">&#39;static</span><span class="w"> </span><span class="k">dyn</span><span class="w"> </span><span class="n">sc_executor</span>::<span class="n">HostFunctionRegistry</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">        </span><span class="n">sp_io</span>::<span class="n">SubstrateHostFunctions</span>::<span class="n">host_functions</span><span class="p">()</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span></code></pre></div></li>
+<li>
+<p>Added missing methods to the <code>Externalities</code> implementation for <code>ValidationExternalities</code>:</p>
+<div class="highlight"><pre tabindex="0" class="chroma"><code class="language-rust" data-lang="rust"><span class="line"><span class="cl"><span class="k">fn</span> <span class="nf">storage_changes_root</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">_parent</span>: <span class="kp">&amp;</span><span class="p">[</span><span class="kt">u8</span><span class="p">])</span><span class="w"> </span>-&gt; <span class="nb">Result</span><span class="o">&lt;</span><span class="nb">Option</span><span class="o">&lt;</span><span class="nb">Vec</span><span class="o">&lt;</span><span class="kt">u8</span><span class="o">&gt;&gt;</span><span class="p">,</span><span class="w"> </span><span class="p">()</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="nb">None</span><span class="p">)</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="p">}</span><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w">
+</span></span></span><span class="line"><span class="cl"><span class="w"></span><span class="k">fn</span> <span class="nf">register_overlay_stats</span><span class="p">(</span><span class="o">&amp;</span><span class="k">mut</span><span class="w"> </span><span class="bp">self</span><span class="p">,</span><span class="w"> </span><span class="n">_stats</span>: <span class="kp">&amp;</span><span class="nc">sp_externalities</span>::<span class="n">OverlayedChangeStats</span><span class="p">)</span><span class="w"> </span><span class="p">{}</span><span class="w">
+</span></span></span></code></pre></div></li>
+</ol>
+<p>These changes were necessary to ensure our parachain correctly implements all required traits and methods expected by the Polkadot runtime. By resolving these compilation errors, we&rsquo;ve improved the compatibility of our parachain with the Polkadot ecosystem, which is crucial for successful deployment and operation.</p>
+<p>Remember, when developing your own parachain, you may encounter similar issues. Always ensure that your implementation adheres to the latest Polkadot and Substrate specifications, and don&rsquo;t hesitate to consult the official documentation or community resources when facing compilation errors.</p>
+<p>With these compilation errors resolved, we can now move on to the exciting process of deploying our parachain to a live network.</p>
+<h2 id="conclusion">Conclusion</h2>
+<p>Congratulations! You have successfully deployed a parachain on the Polkadot network. This tutorial covered the essential steps to set up your development environment, build your custom parachain, and register it on the network. Let&rsquo;s recap the key points:</p>
+<ol>
+<li>Setting up the development environment with Rust and the Polkadot SDK</li>
+<li>Creating and configuring a parachain project using the Substrate Parachain Template</li>
+<li>Building the parachain and generating the necessary chain specifications</li>
+<li>Registering the parachain through the parachain slot auction process</li>
+<li>Resolving compilation errors and updating the execution environment</li>
+</ol>
+<p>Remember, deploying a parachain is just the beginning of your journey in the Polkadot ecosystem. To further enhance your knowledge and capabilities, consider exploring these advanced topics:</p>
+<ul>
+<li>Cross-chain messaging using XCMP (Cross-Chain Message Passing)</li>
+<li>Implementing custom pallets for your parachain&rsquo;s specific use case</li>
+<li>Optimizing your parachain&rsquo;s performance and security</li>
+<li>Participating in the Polkadot governance process</li>
+</ul>
+<p>For more in-depth information and the latest updates, refer to the official Polkadot documentation:</p>
+<ul>
+<li><a href="https://wiki.polkadot.network/">Polkadot Wiki</a></li>
+<li><a href="https://substrate.dev/">Substrate Developer Hub</a></li>
+<li><a href="https://polkadot.js.org/docs/">Polkadot.js Documentation</a></li>
+</ul>
+<p>Happy building, and welcome to the exciting world of Polkadot parachains! Your journey to revolutionizing blockchain interoperability starts here.</p>
+
+            </div>
+        </article></main>
+</div>
+<footer class="footer">
+    <span class="footer_item"> </span>
+    &nbsp;
+
+    <div class="footer_social-icons">
+<a href="https://github.com/hugo-sid" target="_blank" rel="noopener noreferrer me"
+    title="Github">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+    </path>
+</svg>
+</a>
+<a href="https://twitter.com" target="_blank" rel="noopener noreferrer me"
+    title="Twitter">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path
+        d="M23 3a10.9 10.9 0 0 1-3.14 1.53 4.48 4.48 0 0 0-7.86 3v1A10.66 10.66 0 0 1 3 4s-4 9 5 13a11.64 11.64 0 0 1-7 2c9 5 20 0 20-11.5a4.5 4.5 0 0 0-.08-.83A7.72 7.72 0 0 0 23 3z">
+    </path>
+</svg>
+</a>
+<a href="/index.xml" target="_blank" rel="noopener noreferrer me"
+    title="Rss">
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+    stroke-linecap="round" stroke-linejoin="round">
+    <path d="M4 11a9 9 0 0 1 9 9" />
+    <path d="M4 4a16 16 0 0 1 16 16" />
+    <circle cx="5" cy="19" r="1" />
+</svg>
+</a>
+</div>
+    <small class="footer_copyright">
+        © 2024 Sidharth R.
+        Powered by <a href="https://github.com/hugo-sid/hugo-blog-awesome" target="_blank" rel="noopener">Hugo blog awesome</a>.
+    </small>
+</footer><a href="#" title="Go to top" id="totop">
+    <svg xmlns="http://www.w3.org/2000/svg" width="48" height="48" fill="currentColor" stroke="currentColor" viewBox="0 96 960 960">
+    <path d="M283 704.739 234.261 656 480 410.261 725.739 656 677 704.739l-197-197-197 197Z"/>
+</svg>
+
+</a>
+
+
+    
+
+
+
+
+    
+    
+        
+    
+
+    
+    
+        
+    
+
+
+
+    
+    <script async src="http://localhost:1313/js/main.js" ></script>
+
+    
+
+</body>
+</html>
